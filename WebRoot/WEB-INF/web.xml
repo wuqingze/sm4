@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app>
+  <servlet>
+    <servlet-name>EncStr</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>com.EncStr</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>EncFile</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>com.EncFile</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DecStr</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>com.DecStr</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DecFile</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>com.DecFile</servlet-class>
+  </servlet>
+
+
+
+
+  <servlet-mapping>
+    <servlet-name>EncStr</servlet-name>
+    <url-pattern>/encStr</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EncFile</servlet-name>
+    <url-pattern>/encFile</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DecStr</servlet-name>
+    <url-pattern>/decStr</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DecFile</servlet-name>
+    <url-pattern>/decFile</url-pattern>
+  </servlet-mapping>
+
+</web-app>

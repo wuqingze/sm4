@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">  
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdn.bootcss.com/angular.js/1.6.10/angular.min.js"></script>
+    <!-- <script>
+        function loadXMLDoc(){
+           $.ajax({
+          		url: "/test",
+          		context: document.body,
+          		type: "post",
+          		data: {"name":"wuqingze","age":20},
+          		cookies: ["cookie1:name1","cookie2:name2"],
+          		success: function(data){
+          			var o = JSON.parse(data);
+          			o.forEach(function(p,i){
+          				console.log(p.name);
+          				console.log(p.age);
+          			});
+          		}
+           });
+        }
+    </script> -->
+</head>
+<body ng-app="app" ng-controller="controller">
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <div><h3>在线SM4</h3></div>
+                <div class="tabbable" id="tabs-100342">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                             <a href="#panel-907661" data-toggle="tab">字符串</a>
+                        </li>
+                        <li>
+                             <a href="#panel-389931" data-toggle="tab">文件</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content ">
+                        <div class="tab-pane active " id="panel-907661">
+                            <!-- <div class="container-fluid"> -->
+                            <div class="col-md-12  container-fluid" >
+                                <div class="row clearfix">
+                                    <div class="col-md-5 column">
+                                        <div><textarea style="width:100%;height:100%" name="" id="" cols="30" rows="30" ng-model="strPlaintext"></textarea></div>
+                                    </div>
+                                    <div class="col-md-2 column">
+                                        <label for="name">加密模式</label>
+                                        <div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" id="strRadios1" value="option1" checked> ECB
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" id="strRadios2" value="option1"> CBC
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <label for="name">秘钥</label>
+                                        <div style="">
+                                            <input type="text" placeholder="秘钥" ng-model="strKey"><br><br>
+                                            <div style="text-align:center">
+                                                <button class="btn btn-default" ng-click="strEnc()">加密</button><br><br>
+                                            </div>
+                                            <div style="text-align:center">
+                                                <button class="btn btn-default" ng-click="strDec()">解密</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 column">
+                                            <div><textarea style="width:100%;height:100%" name="" id="" cols="30" rows="30" ng-model="strCryptext"></textarea></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- </div> -->
+                            
+                        </div>
+                        <div class="tab-pane" id="panel-389931">
+                            <div class="col-md-12 column">
+                                <div class="jumbotron">
+                                    <form role="form" id="fileForm">
+                                        <div class="form-group">
+                                            <label for="name">加密模式</label>
+                                            <div>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="optionsRadios" id="fileRadios1" checked> ECB
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" name="optionsRadios" id="fileRadios2" > CBC
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                                <label for="exampleInputPassword1">秘钥</label>
+                                                <input type="text" class="form-control" id="exampleInputPassword1" ng-model="fileKey"/>
+                                        </div>
+                                        <div class="form-group">
+                                                <label for="exampleInputFile">上传文件</label>
+                                                <input type="file" id="file" ng-model="file"/>
+                                        </div>
+                                        <div>
+                                            <button type="submit" class="btn btn-default" ng-click="fileEnc()">加密</button>
+                                            <button type="submit" class="btn btn-default" ng-click="fileDec()">解密</button>
+                                        </div>
+                                    </form>    
+                                    <div class="progress" style="margin:10px">
+                                        <div class="progress-bar progress-success">
+                                        </div>
+                                    </div>
+                                    <a href="{{fileLink}}" ng-show="downloadFile">下载文件</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+	function shibie() {
+		var file = $("#imgForm").find("input")[0].files[0];  
+	             //创建读取文件的对象  
+	             var reader = new FileReader();  
+	             //创建文件读取相关的变量  
+	             var imgFile;  
+	             //为文件读取成功设置事件  
+	             reader.onload=function(e) {  
+	                 imgFile = e.target.result;  
+	                 alert($('#file').val().split('\\'));
+	                 console.log(imgFile);
+	                 //console.log(imgFile.length);
+	                 console.log(typeof(imgFile));
+	             };  
+	             reader.readAsDataURL(file); 
+	}
+    var app = angular.module('app', []);
+    app.controller('controller',function($scope) {
+        $scope.downloadFile = false;
+
+
+        $scope.strEnc = function(){
+            $scope.strCryptext = "";
+            var model = ($('input[id="fileRadios1"]:checked').val())?'ecb':'cbc';
+            // alert({"model":model,"str":$scope.strPlaintext,"strKey":$scope.strKey}.toString());
+            
+            $.ajax({
+                type: "POST",
+                url : "/encStr",
+                data : {"model":model,"str":$scope.strPlaintext,"strKey":$scope.strKey},
+                success: function(data){
+                    var r = JSON.parse(data)[0];
+                    $scope.strCryptext = r["strCryptext"];
+                    $scope.$apply();
+                }
+            });
+        };
+        
+        $scope.strDec = function(){
+            var model = ($('input[id="fileRadios1"]:checked').val())?'ecb':'cbc';
+            $scope.strPlaintext = "";
+            
+            $.ajax({
+                type: "POST",
+                url : "/decStr",
+                data : {"model":model,"str":$scope.strCryptext,"strKey":$scope.strKey},
+                success: function(data){
+                    var r = JSON.parse(data)[0];
+                    $scope.strPlaintext = r["strPlaintext"];
+                    $scope.$apply();
+                }
+            });
+        };
+
+        $scope.fileEnc = function(){
+            var model = ($('input[id="fileRadios1"]:checked').val())?'ecb':'cbc';
+            $scope.downloadFile = false;
+            
+            var file =$("#fileForm").find("input")[3].files[0];  
+            var reader = new FileReader();  
+              
+            reader.onload=function(e) {  
+                var file_ = e.target.result;  
+                var temp = $('#file').val().split('\\');
+                var fileName = temp[temp.length-1];
+                console.log(file_);
+                $.ajax({
+                type: "POST",
+                url : "/encFile",
+                data : {"model":model,"fileName":fileName,"fileStr":file_,"fileKey":$scope.fileKey},
+                success: function(data){
+                    var r = JSON.parse(data)[0];
+                    $scope.fileLink = r["fileLink"];
+                    $scope.downloadFile = true;
+                    $scope.$apply();
+                }
+                });
+            };  
+		    reader.readAsDataURL(file); 
+            
+            
+        };
+
+        $scope.fileDec = function(){
+            var model = ($('input[id="fileRadios1"]:checked').val())?'ecb':'cbc';
+            $scope.downloadFile = false;
+
+            var file =$("#fileForm").find("input")[3].files[0]; 
+            var reader = new FileReader();  
+            var file_;  
+            reader.onload=function(e) {  
+                file_ = e.target.result;  
+                var temp = $('#file').val().split('\\');
+                var fileName = temp[temp.length-1];
+                $.ajax({
+                type: "POST",
+                url : "/decFile",
+                data : {"model":model,"fileName":fileName,"fileStr":file_,"fileKey":$scope.fileKey},
+                success: function(data){
+                    var r = JSON.parse(data)[0];
+                    $scope.fileLink = r["fileLink"];
+                    $scope.downloadFile = true;
+                    $scope.$apply();
+                }
+            });
+            };  
+		    reader.readAsDataURL(file); 
+
+            
+        };
+    });
+    console.log("ladjfajdflak");
+</script>
+</html>
